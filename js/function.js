@@ -7,11 +7,12 @@ const isLengthNormal = (string, maxLength) => string.length <= maxLength;
 const isPalindrome = (string) => {
   const reduceString = string.toLowerCase().replaceAll(' ', '');
   if (reduceString.length > 1) {
-    const averageSymbol = Math.trunc(reduceString.length / 2);
-    for (let i = 0; i < averageSymbol; i++) {
-      return reduceString.at(i) === reduceString.at(-1 - i);
-    }
-  }
+    let reverseString = '';
+    for (let i = reduceString.length - 1; i >= 0; i--) {
+      reverseString += reduceString.at(i);
+      };
+    return reverseString === reduceString;
+  };
   return false;
 };
 
@@ -26,4 +27,4 @@ const onlyNumber = (data) => {
     }
   }
   return parseFloat(newString);
-}
+};
