@@ -1,30 +1,20 @@
 // Задание 1
 
-const isLengthNormal = (string, maxLength) => string.length <= maxLength;
+const checkStringLength = (string, maxLength) => string.length <= maxLength;
+
+checkStringLength('проверяемая строка', 20);
 
 //Задание 2
 
 const isPalindrome = (string) => {
-  const reduceString = string.toLowerCase().replaceAll(' ', '');
-  if (reduceString.length > 1) {
-    let reverseString = '';
-    for (let i = reduceString.length - 1; i >= 0; i--) {
-      reverseString += reduceString.at(i);
-      };
-    return reverseString === reduceString;
-  };
-  return false;
+  string = string.toLowerCase().replaceAll(' ', '');
+  return string === string.split('').reverse().join('');
 };
+
+isPalindrome('Лёша на полке клопа нашёл ');
 
 // Дополнительное задание
 
-const onlyNumber = (data) => {
-  const string = String(data);
-  let newString = '';
-  for (let i = 0; i < string.length; i++) {
-    if (!Number.isNaN(+string.at(i)) && string.at(i) !== ' ') {
-      newString = newString + string.at(i);
-    }
-  }
-  return parseFloat(newString);
-};
+const extractNumber = (string) => parseFloat(String(string).replace(/\D/g,''));
+
+console.log(extractNumber('1 кефир, 0.5 батона'));
