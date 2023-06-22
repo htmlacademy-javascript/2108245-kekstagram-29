@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomValueOfArray} from './utils.js';
+import {getRandomNumber, getRandomArrayElement, shuffleArray} from './utils.js';
 
 const COUNT_OF_POSTS = 25;
 const MIN_PHOTO_INDEX = 1;
@@ -46,22 +46,23 @@ const NAMES = [
 ];
 
 let postID = 1;
-let urlId = 1;
 let commentId = 1;
+
+const createMessage = (elements) => shuffleArray(elements).slice(0,getRandomNumber(1, 2)).join(' ');
 
 const createComment = () => ({
   id: commentId++,
-  avatar: `img/avatar-${getRandomInteger(MIN_PHOTO_INDEX, MAX_PHOTO_INDEX)}.svg`,
-  message: getRandomValueOfArray(COMMENTS),
-  name: getRandomValueOfArray(NAMES),
+  avatar: `img/avatar-${getRandomNumber(MIN_PHOTO_INDEX, MAX_PHOTO_INDEX)}.svg`,
+  message: createMessage(COMMENTS),
+  name: getRandomArrayElement(NAMES),
 });
 
 const createPost = () => ({
-  id: postID++,
-  url: `photos/${urlId++}.jpg`,
-  description: getRandomValueOfArray(DESCRIPTIONS),
-  likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
-  comments: Array.from({length: getRandomInteger(MIN_COUNT_OF_COMMENTS, MAX_COUNT_OF_COMMENTS)}, createComment),
+  id: postID,
+  url: `photos/${postID++}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
+  comments: Array.from({length: getRandomNumber(MIN_COUNT_OF_COMMENTS, MAX_COUNT_OF_COMMENTS)}, createComment),
 });
 
 const createPosts = () => Array.from({length: COUNT_OF_POSTS}, createPost);
