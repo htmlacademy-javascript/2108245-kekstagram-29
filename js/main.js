@@ -1,5 +1,2 @@
-import {createPosts} from './create-posts.js';
-
-console.log(
-  createPosts()
-);
+import './data.js';
+import './picture.js';
