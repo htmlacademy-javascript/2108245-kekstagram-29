@@ -7,13 +7,19 @@ const pictures = createPosts();
 
 const listFragment = document.createDocumentFragment();
 
-pictures.forEach(({url, description, likes, comments}) => {
+const createPost = (item) => {
   const picture = pictureTemplate.cloneNode(true);
-  picture.querySelector('.picture__img').src = url;
-  picture.querySelector('.picture__img').alt = description;
-  picture.querySelector('.picture__likes').textContent = likes;
-  picture.querySelector('.picture__comments').textContent = comments.length;
-  pictureList.appendChild(picture);
-});
+  const img = picture.querySelector('.picture__img');
+  img.src = item.url;
+  img.alt = item.description;
+  picture.querySelector('.picture__likes').textContent = item.likes;
+  picture.querySelector('.picture__comments').textContent = item.comments.length;
+  listFragment.appendChild(picture);
+};
 
-pictureList.appendChild(listFragment);
+const renderPosts = () => {
+  pictures.forEach((picture) => createPost(picture));
+  pictureList.appendChild(listFragment);
+};
+
+export {renderPosts};
