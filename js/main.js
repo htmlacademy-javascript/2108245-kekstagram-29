@@ -1,2 +1,3 @@
-import {renderPosts} from './picture.js';
+import {renderPosts} from './render-posts.js';
+
 renderPosts();
