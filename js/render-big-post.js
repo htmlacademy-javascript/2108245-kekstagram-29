@@ -59,17 +59,20 @@ const fillComment = (item) => {
   return comment;
 };
 
-const fillComments = () => {
-  const currentComments = comments.slice(visibleComments, visibleComments + COMMENTS_COUNTER);
-  visibleComments += COMMENTS_COUNTER;
-  visibleComments = Math.min(visibleComments, comments.length);
-  currentComments.forEach((comment) => socialComments.append(fillComment(comment)));
-  fillCommentCounter();
+const setStatusButton = () => {
   if (visibleComments >= comments.length) {
     commentsLoader.classList.add('hidden');
     return;
   }
   commentsLoader.classList.remove('.hidden');
+};
+
+const fillComments = () => {
+  const currentComments = comments.slice(visibleComments, visibleComments + COMMENTS_COUNTER);
+  visibleComments = Math.min(visibleComments + COMMENTS_COUNTER, comments.length);
+  currentComments.forEach((comment) => socialComments.append(fillComment(comment)));
+  fillCommentCounter();
+  setStatusButton();
 };
 
 function onCommentsLoaderClick(event) {
