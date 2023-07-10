@@ -1,26 +1,36 @@
 import {isEscapeKey} from './utils.js';
-import {validateForm, addValidator} from './form_validate.js';
+import {validateForm, addValidator, resetPristine} from './form_validate.js';
 import {renderSuccessMessage, renderErrorMessage} from './validate_messages.js';
+import {addPhotoFilters, removeSlider, onEffectsListClick, createSlider} from './photo-filters.js';
+import {addPhotoScale} from './photo-scale.js';
 
 const form = document.querySelector('.img-upload__form');
 const imageInput = form.querySelector('.img-upload__input');
 const overlay = form.querySelector('.img-upload__overlay');
 const overlayCancel = form.querySelector('.img-upload__cancel');
+const effectsList = document.querySelector('.effects');
 
 const openModal = () => {
   overlay.classList.remove('hidden');
   overlayCancel.addEventListener('click', onOverlayCancelClick);
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
+  addValidator();
+  addPhotoScale();
+  addPhotoFilters();
+  form.addEventListener('submit', onFormSubmit);
+  createSlider();
 };
 
 const closeModal = () => {
+  removeSlider();
+  form.reset();
+  resetPristine();
   overlay.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   overlayCancel.removeEventListener('click', onOverlayCancelClick);
   document.body.classList.remove('modal-open');
-  form.reset();
-  validateForm();
+  effectsList.removeEventListener('click', onEffectsListClick);
 };
 
 function onOverlayCancelClick(event) {
@@ -52,8 +62,6 @@ const onImageInputChange = () => {
 
 const openForm = () => {
   imageInput.addEventListener('change', onImageInputChange);
-  form.addEventListener('submit', onFormSubmit);
-  addValidator();
 };
 
 export {openForm, closeModal};
