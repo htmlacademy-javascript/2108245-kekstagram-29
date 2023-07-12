@@ -38,14 +38,14 @@ const isHashtagTooMany = (value) => createHashtags(value).length <= HASHTAGS_MAX
 const isDescriptionValid = (value) => value.length <= DESCRIPTION_MAX_LENGTH;
 
 const addValidator = () => {
-  pristine.addValidator(hashtagInput, isNameHashtagsValid, INVALID_HASHTAG_NAME);
-  pristine.addValidator(hashtagInput, isHashtagRepeat, INVALID_HASHTAG_REPEAT);
-  pristine.addValidator(hashtagInput, isHashtagTooMany, INVALID_HASHTAG_COUNT);
-  pristine.addValidator(descriptionInput, isDescriptionValid, INVALID_DESCRIPTION_TEXT);
+  pristine.addValidator(hashtagInput, isNameHashtagsValid, INVALID_HASHTAG_NAME, 1, true);
+  pristine.addValidator(hashtagInput, isHashtagRepeat, INVALID_HASHTAG_REPEAT, 1, true);
+  pristine.addValidator(hashtagInput, isHashtagTooMany, INVALID_HASHTAG_COUNT, 1, true);
+  pristine.addValidator(descriptionInput, isDescriptionValid, INVALID_DESCRIPTION_TEXT, 1, true);
 };
 
 const validateForm = () => pristine.validate();
 
 const resetPristine = () => pristine.reset();
 
-export {validateForm, addValidator, resetPristine};
+export { validateForm, addValidator, resetPristine };
