@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomArrayElement, shuffleArray} from './utils.js';
+import {getRandomNumber, getRandomArrayElement, shuffleArray} from '../utils/utils.js';
 
 const COUNT_OF_POSTS = 25;
 const MIN_PHOTO_INDEX = 1;

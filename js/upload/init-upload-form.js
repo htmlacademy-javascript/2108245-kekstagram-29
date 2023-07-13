@@ -1,14 +1,17 @@
-import { isEscapeKey } from './utils.js';
-import { validateForm, addValidator, resetPristine } from './form-validate.js';
-import { renderSuccessMessage, renderErrorMessage } from './validate-messages.js';
-import { addPhotoFilters, removeSlider, onEffectsListChange, createSlider } from './photo-filters.js';
-import { addPhotoScale, resetScale } from './photo-scale.js';
+import {isEscapeKey} from '../utils/utils.js';
+import {validateForm, addValidator, resetPristine} from './form-validate.js';
+import {renderSuccessMessage, renderErrorMessage} from './validate-messages.js';
+import {setUpdateOptions, createSlider} from './photo-filters.js';
+import {addPhotoScale, resetScale} from './photo-scale.js';
 
 const form = document.querySelector('.img-upload__form');
 const imageInput = document.querySelector('.img-upload__input');
 const overlay = document.querySelector('.img-upload__overlay');
 const overlayCancel = document.querySelector('.img-upload__cancel');
 const effectsList = document.querySelector('.effects');
+const currentEffectValue = effectsList.querySelector('input:checked').value;
+
+const onEffectsListChange = (event) => setUpdateOptions(event.target.value);
 
 const openModal = () => {
   overlay.classList.remove('hidden');
@@ -16,8 +19,7 @@ const openModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   addValidator();
   addPhotoScale();
-  addPhotoFilters();
-  removeSlider(effectsList.querySelector('input:checked').value);
+  setUpdateOptions(currentEffectValue);
 };
 
 const closeModal = () => {
@@ -58,8 +60,8 @@ const initUploadForm = () => {
   imageInput.addEventListener('change', onImageInputChange);
   form.addEventListener('submit', onFormSubmit);
   overlayCancel.addEventListener('click', onOverlayCancelClick);
-  createSlider(effectsList.querySelector('input:checked').value);
+  createSlider(currentEffectValue);
   effectsList.addEventListener('change', onEffectsListChange);
 };
 
-export { initUploadForm, closeModal };
+export {initUploadForm, closeModal};

@@ -48,4 +48,4 @@ const validateForm = () => pristine.validate();
 
 const resetPristine = () => pristine.reset();
 
-export { validateForm, addValidator, resetPristine };
+export {validateForm, addValidator, resetPristine};

@@ -35,11 +35,9 @@ const EFFECTS = {
     unit: ''
   },
   default: {
-    start: 100,
     minValue: 0,
     maxValue: 100,
-    step: 1,
-    unit: ''
+    step: 1
   }
 };
 
@@ -56,9 +54,20 @@ const setSliderState = (value) => {
   rangeContainer.classList.remove('hidden');
 };
 
-const setDefaultValue = () => {
-  valueInput.Value = 0;
-  rangeElement.noUiSlider.set(valueInput.Value);
+const setNewValue = (element, value) => {
+  if (element === EFFECTS.default) {
+    img.style.filter = null;
+    return;
+  }
+
+  img.style.filter = `${element.property}(${value}${element.unit})`;
+};
+
+const updateSlider = (value) => {
+  rangeElement.noUiSlider.on('update', () => {
+    valueInput.value = rangeElement.noUiSlider.get();
+    setNewValue(value, valueInput.value);
+  });
 };
 
 const createSlider = (value) => {
@@ -69,49 +78,26 @@ const createSlider = (value) => {
       min: settings.minValue,
       max: settings.maxValue,
     },
-    start: settings.start,
+    start: settings.maxValue,
     step: settings.step,
     connect: 'lower',
   });
+
+  updateSlider(settings);
 };
 
-const setNewEffect = (element, value) => {
-  img.style.filter = `${element.property}(${value}${element.unit})`;
-};
-
-const setUpdateOptions = (element) => {
+const setUpdateOptions = (value) => {
+  const settings = EFFECTS[value] || EFFECTS.default;
+  setSliderState(value);
   rangeElement.noUiSlider.updateOptions({
     range: {
-      min: element.minValue,
-      max: element.maxValue,
+      min: settings.minValue,
+      max: settings.maxValue,
     },
-    start: element.maxValue,
-    step: element.step,
+    start: settings.maxValue,
+    step: settings.step,
   });
+  updateSlider(settings);
 };
 
-const removeSlider = (value) => {
-  img.style.filter = null;
-  setDefaultValue();
-  setSliderState(value);
-};
-
-const onEffectsListChange = ({target}) => {
-  if(target.value === 'none') {
-    removeSlider();
-    return;
-  }
-
-  setSliderState(target.value);
-  setUpdateOptions(EFFECTS[target.value]);
-  rangeElement.noUiSlider.on('update', () => {
-    valueInput.value = rangeElement.noUiSlider.get();
-    setNewEffect(EFFECTS[target.value], valueInput.value);
-  });
-};
-
-const addPhotoFilters = (value) => {
-  setSliderState(value);
-};
-
-export { addPhotoFilters, removeSlider, onEffectsListChange, createSlider };
+export {setUpdateOptions, createSlider};
