@@ -17,9 +17,6 @@ const openModal = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  addValidator();
-  addPhotoScale();
-  setUpdateOptions(currentEffectValue);
 };
 
 const closeModal = () => {
@@ -29,6 +26,7 @@ const closeModal = () => {
   form.reset();
   resetScale();
   resetPristine();
+  setUpdateOptions(currentEffectValue);
 };
 
 function onOverlayCancelClick(event) {
@@ -49,7 +47,8 @@ function onDocumentKeydown(event) {
 function onFormSubmit(event) {
   event.preventDefault();
   if (validateForm()) {
-    return renderSuccessMessage();
+    renderSuccessMessage();
+    return;
   }
   renderErrorMessage();
 }
@@ -57,10 +56,12 @@ function onFormSubmit(event) {
 const onImageInputChange = () => openModal();
 
 const initUploadForm = () => {
+  addValidator();
+  addPhotoScale();
+  createSlider(currentEffectValue);
   imageInput.addEventListener('change', onImageInputChange);
   form.addEventListener('submit', onFormSubmit);
   overlayCancel.addEventListener('click', onOverlayCancelClick);
-  createSlider(currentEffectValue);
   effectsList.addEventListener('change', onEffectsListChange);
 };
 

@@ -1,4 +1,4 @@
-const HASHTAG_GRAMMAR_RULES = /^#[a-za-яё0-9]{1,19}$/i;
+const REGEXP = /^#[a-za-яё0-9]{1,19}$/i;
 const DESCRIPTION_MAX_LENGTH = 140;
 const HASHTAGS_MAX_COUNT = 5;
 const INVALID_HASHTAG_NAME = 'Хеш-тег начинается с #, длиной не более 20 символов и может состоять только из букв и цифр';
@@ -18,7 +18,7 @@ const pristine = new Pristine(form, {
 
 const createHashtags = (value) => value.trim().toLowerCase().split(' ');
 
-const validateHashtag = (item) => HASHTAG_GRAMMAR_RULES.test(item);
+const validateHashtag = (item) => REGEXP.test(item);
 
 const isNameHashtagsValid = (value) => {
   if (!value) {
@@ -48,4 +48,4 @@ const validateForm = () => pristine.validate();
 
 const resetPristine = () => pristine.reset();
 
-export {validateForm, addValidator, resetPristine};
+export {addValidator, validateForm, resetPristine};

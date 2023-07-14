@@ -54,19 +54,19 @@ const setSliderState = (value) => {
   rangeContainer.classList.remove('hidden');
 };
 
-const setNewValue = (element, value) => {
-  if (element === EFFECTS.default) {
+const setNewValue = (item, value) => {
+  if (item === EFFECTS.default) {
     img.style.filter = null;
     return;
   }
 
-  img.style.filter = `${element.property}(${value}${element.unit})`;
+  img.style.filter = `${item.property}(${value}${item.unit})`;
 };
 
-const updateSlider = (value) => {
+const updateSlider = (item) => {
   rangeElement.noUiSlider.on('update', () => {
     valueInput.value = rangeElement.noUiSlider.get();
-    setNewValue(value, valueInput.value);
+    setNewValue(item, valueInput.value);
   });
 };
 
