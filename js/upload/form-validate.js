@@ -1,4 +1,4 @@
-const HASHTAG_GRAMMAR_RULES = /^#[a-za-яё0-9]{1,19}$/i;
+const REGEXP = /^#[a-za-яё0-9]{1,19}$/i;
 const DESCRIPTION_MAX_LENGTH = 140;
 const HASHTAGS_MAX_COUNT = 5;
 const INVALID_HASHTAG_NAME = 'Хеш-тег начинается с #, длиной не более 20 символов и может состоять только из букв и цифр';
@@ -18,7 +18,7 @@ const pristine = new Pristine(form, {
 
 const createHashtags = (value) => value.trim().toLowerCase().split(' ');
 
-const validateHashtag = (item) => HASHTAG_GRAMMAR_RULES.test(item);
+const validateHashtag = (item) => REGEXP.test(item);
 
 const isNameHashtagsValid = (value) => {
   if (!value) {
@@ -38,12 +38,14 @@ const isHashtagTooMany = (value) => createHashtags(value).length <= HASHTAGS_MAX
 const isDescriptionValid = (value) => value.length <= DESCRIPTION_MAX_LENGTH;
 
 const addValidator = () => {
-  pristine.addValidator(hashtagInput, isNameHashtagsValid, INVALID_HASHTAG_NAME);
-  pristine.addValidator(hashtagInput, isHashtagRepeat, INVALID_HASHTAG_REPEAT);
-  pristine.addValidator(hashtagInput, isHashtagTooMany, INVALID_HASHTAG_COUNT);
-  pristine.addValidator(descriptionInput, isDescriptionValid, INVALID_DESCRIPTION_TEXT);
+  pristine.addValidator(hashtagInput, isNameHashtagsValid, INVALID_HASHTAG_NAME, 1, true);
+  pristine.addValidator(hashtagInput, isHashtagRepeat, INVALID_HASHTAG_REPEAT, 1, true);
+  pristine.addValidator(hashtagInput, isHashtagTooMany, INVALID_HASHTAG_COUNT, 1, true);
+  pristine.addValidator(descriptionInput, isDescriptionValid, INVALID_DESCRIPTION_TEXT, 1, true);
 };
 
 const validateForm = () => pristine.validate();
 
-export {validateForm, addValidator};
+const resetPristine = () => pristine.reset();
+
+export {addValidator, validateForm, resetPristine};
