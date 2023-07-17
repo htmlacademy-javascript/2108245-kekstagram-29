@@ -1,9 +1,14 @@
-import {createPosts} from './data.js';
 import {renderBigPost} from './render-big-post.js';
+import {showAlert} from '../utils/utils.js';
+import {getData} from '../api.js';
+
+
+const ALERT_SHOW_TIME = 5000;
+const ALERT_MESSAGE = 'Не удалось загрузить данные. Попробуйте обновить страницу';
+const GET_URL = 'https://29.javascript.pages.academy/kekstagram/data';
 
 const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const pictures = createPosts();
 const listFragment = document.createDocumentFragment();
 
 const createPost = (item) => {
@@ -21,9 +26,17 @@ const createPost = (item) => {
   listFragment.appendChild(picture);
 };
 
-const renderPosts = () => {
-  pictures.forEach((picture) => createPost(picture));
+const createPosts = (posts) => {
+  posts.forEach((post) => createPost(post));
   pictureList.appendChild(listFragment);
+};
+
+const showError = () => {
+  showAlert(ALERT_MESSAGE, ALERT_SHOW_TIME);
+};
+
+const renderPosts = () => {
+  getData(GET_URL, (posts) => createPosts(posts), showError);
 };
 
 export {renderPosts};
