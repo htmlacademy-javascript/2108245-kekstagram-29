@@ -20,6 +20,15 @@ const removeMessageContainer = () => {
   submitButton = '';
 };
 
+const renderMessage = (type) => {
+  cloneMessageContainer(type);
+  document.body.append(messageContainer);
+  submitButton.addEventListener('click', onSubmitButtonClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+  document.body.classList.add('modal-open');
+  messageContainer.addEventListener('click', onMessageContainerClick);
+};
+
 const closeMessage = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
   submitButton.removeEventListener('click', onSubmitButtonClick);
@@ -27,19 +36,6 @@ const closeMessage = () => {
   document.body.removeChild(messageContainer);
   messageContainer.removeEventListener('click', onMessageContainerClick);
   removeMessageContainer();
-};
-
-const renderMessage = (type) => {
-  if (messageContainer) {
-    closeMessage();
-  }
-
-  cloneMessageContainer(type);
-  document.body.append(messageContainer);
-  submitButton.addEventListener('click', onSubmitButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.body.classList.add('modal-open');
-  messageContainer.addEventListener('click', onMessageContainerClick);
 };
 
 function onSubmitButtonClick(event) {
