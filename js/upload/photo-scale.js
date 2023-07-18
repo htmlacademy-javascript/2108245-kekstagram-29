@@ -19,16 +19,14 @@ const setNewValue = (value) => {
 const onControlSmallerClick = (event) => {
   event.preventDefault();
   if (leadValue() >= SCALE_MIN + SCALE_STEP) {
-    const currentValue = leadValue() - SCALE_STEP;
-    setNewValue(currentValue);
+    setNewValue(leadValue() - SCALE_STEP);
   }
 };
 
 const onControlBiggerClick = (event) => {
   event.preventDefault();
   if (leadValue() <= SCALE_MAX - SCALE_STEP) {
-    const currentValue = leadValue() + SCALE_STEP;
-    setNewValue(currentValue);
+    setNewValue(leadValue() + SCALE_STEP);
   }
 };
 

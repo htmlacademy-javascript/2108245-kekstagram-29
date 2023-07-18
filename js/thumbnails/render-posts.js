@@ -1,9 +1,7 @@
-import {createPosts} from './data.js';
 import {renderBigPost} from './render-big-post.js';
 
 const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const pictures = createPosts();
 const listFragment = document.createDocumentFragment();
 
 const createPost = (item) => {
@@ -21,8 +19,8 @@ const createPost = (item) => {
   listFragment.appendChild(picture);
 };
 
-const renderPosts = () => {
-  pictures.forEach((picture) => createPost(picture));
+const renderPosts = (posts) => {
+  posts.forEach((post) => createPost(post));
   pictureList.appendChild(listFragment);
 };
 

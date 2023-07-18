@@ -64,6 +64,7 @@ const setNewValue = (item, value) => {
 };
 
 const updateSlider = (item) => {
+  rangeElement.noUiSlider.off('update');
   rangeElement.noUiSlider.on('update', () => {
     valueInput.value = rangeElement.noUiSlider.get();
     setNewValue(item, valueInput.value);

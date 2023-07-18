@@ -1,74 +1,68 @@
 import {isEscapeKey} from '../utils/utils.js';
-import {closeModal} from './init-upload-form.js';
 
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const successContainer = successTemplate.cloneNode(true);
-const errorContainer = errorTemplate.cloneNode(true);
-const successButton = successContainer.querySelector('.success__button');
-const errorButton = errorContainer.querySelector('.error__button');
+const createMessageTemplate = (state, message, buttonText) =>
+  `<section class="${state}">
+      <div class="${state}__inner">
+          <h2 class="${state}__title">${message}</h2>
+          ${buttonText ? `<button type="button" class="${state}__button">${buttonText}</button>` : ''}
+      </div>
+    </section>`;
 
-const renderSuccessMessage = () => {
-  document.body.append(successContainer);
-  successButton.addEventListener('click', onSuccessButtonClick);
+let element, submitButton;
+
+const createDomElement = (state, message, buttonText) => {
+  document.body.insertAdjacentHTML('beforeend', createMessageTemplate(state, message, buttonText));
+  element = document.querySelector(`.${state}`);
+};
+
+const initSubmitButton = (state, buttonText) => {
+  if (buttonText) {
+    submitButton = element.querySelector(`.${state}__button`);
+    submitButton.addEventListener('click', onSubmitButtonClick);
+  }
+};
+
+const renderMessage = (state, message, buttonText) => {
+  createDomElement(state, message, buttonText);
+  initSubmitButton(state, buttonText);
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
-  successContainer.addEventListener('click', onSuccessContainerClick);
+  element.addEventListener('click', onMessageContainerClick);
 };
 
-const renderErrorMessage = () => {
-  document.body.append(errorContainer);
-  errorButton.addEventListener('click', onErrorButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.body.classList.add('modal-open');
-  errorContainer.addEventListener('click', onErrorContainerClick);
+const removeMessageContainer = () => {
+  document.body.removeChild(element);
+  element = '';
+  submitButton = '';
 };
 
-const closeSuccessMessage = () => {
+const closeMessage = () => {
+  if (submitButton) {
+    submitButton.removeEventListener('click', onSubmitButtonClick);
+  }
+
   document.removeEventListener('keydown', onDocumentKeydown);
-  successButton.removeEventListener('click', onSuccessButtonClick);
   document.body.classList.remove('modal-open');
-  document.body.removeChild(successContainer);
-  successContainer.removeEventListener('click', onSuccessContainerClick);
+  element.removeEventListener('click', onMessageContainerClick);
+  removeMessageContainer();
 };
 
-const closeErrorMessage = () => {
-  document.removeEventListener('keydown', onDocumentKeydown);
-  errorButton.removeEventListener('click', onErrorButtonClick);
-  document.body.classList.remove('modal-open');
-  document.body.removeChild(errorContainer);
-  errorContainer.removeEventListener('click', onErrorContainerClick);
-};
-
-function onSuccessButtonClick(event) {
+function onSubmitButtonClick(event) {
   event.preventDefault();
-  closeSuccessMessage();
-  closeModal();
-}
-
-function onErrorButtonClick(event) {
-  event.preventDefault();
-  closeErrorMessage();
+  closeMessage();
 }
 
 function onDocumentKeydown(event) {
   if(isEscapeKey(event)) {
     event.preventDefault();
-    closeSuccessMessage();
+    closeMessage();
   }
 }
 
-function onSuccessContainerClick(event) {
-  if(!event.target.closest('.success-inner')) {
-    closeSuccessMessage();
-    closeModal();
+function onMessageContainerClick(event) {
+  if(!event.target.closest('.success__inner') && !event.target.closest('.error__inner')) {
+    closeMessage();
   }
 }
 
-function onErrorContainerClick(event) {
-  if(!event.target.closest('.error-inner')) {
-    closeErrorMessage();
-  }
-}
-
-export {renderErrorMessage, renderSuccessMessage};
+export {renderMessage};
