@@ -4,6 +4,7 @@ import {renderMessage} from './validate-messages.js';
 import {setUpdateOptions, createSlider} from './photo-filters.js';
 import {addPhotoScale, resetScale} from './photo-scale.js';
 import {sendData} from '../utils/api.js';
+import {renderUploadImage} from './upload-image.js';
 
 const POST_URL = 'https://29.javascript.pages.academy/kekstagra/';
 const SUCCESS_STATE = 'success';
@@ -78,7 +79,10 @@ function onFormSubmit(event) {
   }
 }
 
-const onImageInputChange = () => openModal();
+const onImageInputChange = () => {
+  renderUploadImage();
+  openModal();
+}
 
 const initUploadForm = () => {
   addValidator();
