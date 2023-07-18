@@ -1,68 +1,66 @@
 import {isEscapeKey} from '../utils/utils.js';
-import {closeModal} from './init-upload-form.js';
 
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-let messageContainer, submitButton;
+const createMessageTemplate = (state, message, buttonText) =>
+  `<section class="${state}">
+      <div class="${state}__inner">
+          <h2 class="${state}__title">${message}</h2>
+          ${buttonText ? `<button type="button" class="${state}__button">${buttonText}</button>` : ''}
+      </div>
+    </section>`;
 
-const cloneMessageContainer = (type) => {
-  if (type === 'success') {
-    messageContainer = successTemplate.cloneNode(true);
-    submitButton = messageContainer.querySelector('.success__button');
-    return;
+let element, submitButton;
+
+const createDomElement = (state, message, buttonText) => {
+  document.body.insertAdjacentHTML('beforeend', createMessageTemplate(state, message, buttonText));
+  element = document.querySelector(`.${state}`);
+};
+
+const initSubmitButton = (state, buttonText) => {
+  if (buttonText) {
+    submitButton = element.querySelector(`.${state}__button`);
+    submitButton.addEventListener('click', onSubmitButtonClick);
   }
-  messageContainer = errorTemplate.cloneNode(true);
-  submitButton = messageContainer.querySelector('.error__button');
+};
+
+const renderMessage = (state, message, buttonText) => {
+  createDomElement(state, message, buttonText);
+  initSubmitButton(state, buttonText);
+  document.addEventListener('keydown', onDocumentKeydown);
+  document.body.classList.add('modal-open');
+  element.addEventListener('click', onMessageContainerClick);
 };
 
 const removeMessageContainer = () => {
-  messageContainer = '';
+  document.body.removeChild(element);
+  element = '';
   submitButton = '';
 };
 
-const renderMessage = (type) => {
-  cloneMessageContainer(type);
-  document.body.append(messageContainer);
-  submitButton.addEventListener('click', onSubmitButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.body.classList.add('modal-open');
-  messageContainer.addEventListener('click', onMessageContainerClick);
-};
-
 const closeMessage = () => {
+  if (submitButton) {
+    submitButton.removeEventListener('click', onSubmitButtonClick);
+  }
+
   document.removeEventListener('keydown', onDocumentKeydown);
-  submitButton.removeEventListener('click', onSubmitButtonClick);
   document.body.classList.remove('modal-open');
-  document.body.removeChild(messageContainer);
-  messageContainer.removeEventListener('click', onMessageContainerClick);
+  element.removeEventListener('click', onMessageContainerClick);
   removeMessageContainer();
 };
 
 function onSubmitButtonClick(event) {
   event.preventDefault();
-  if (submitButton.classList.contains('success__button')) {
-    closeModal();
-  }
   closeMessage();
 }
 
 function onDocumentKeydown(event) {
   if(isEscapeKey(event)) {
     event.preventDefault();
-    if (submitButton.classList.contains('success__button')) {
-      closeModal();
-    }
     closeMessage();
   }
 }
 
 function onMessageContainerClick(event) {
-  if(!event.target.closest('.success-inner') && submitButton.classList.contains('success__button')) {
-    closeMessage();
-    closeModal();
-    return;
-  }
-  if(!event.target.closest('.error-inner') && submitButton.classList.contains('error__button')) {
+  if(!event.target.closest('.success__inner') && !event.target.closest('.error__inner')) {
     closeMessage();
   }
 }

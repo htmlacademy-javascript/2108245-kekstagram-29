@@ -3,9 +3,15 @@ import {validateForm, addValidator, resetPristine} from './form-validate.js';
 import {renderMessage} from './validate-messages.js';
 import {setUpdateOptions, createSlider} from './photo-filters.js';
 import {addPhotoScale, resetScale} from './photo-scale.js';
-import {sendData} from '../api.js';
+import {sendData} from '../utils/api.js';
 
 const POST_URL = 'https://29.javascript.pages.academy/kekstagra/';
+const SUCCESS_STATE = 'success';
+const SUCCESS_MESSAGE = 'Изображение успешно загружено';
+const SUCCESS_BUTTON_TEXT = 'Круто!';
+const ERROR_STATE = 'error';
+const ERROR_MESSAGE = 'Ошибка загрузки файла';
+const ERROR_BUTTON_TEXT = 'Попробовать ещё раз';
 
 const form = document.querySelector('.img-upload__form');
 const imageInput = document.querySelector('.img-upload__input');
@@ -14,6 +20,10 @@ const overlayCancel = document.querySelector('.img-upload__cancel');
 const effectsList = document.querySelector('.effects');
 const currentEffectValue = effectsList.querySelector('input:checked').value;
 const submitButton = document.querySelector('.img-upload__submit');
+
+const setSubmitButtonStatus = (state) => {
+  submitButton.disabled = state;
+};
 
 const onEffectsListChange = (event) => setUpdateOptions(event.target.value);
 
@@ -49,21 +59,23 @@ function onDocumentKeydown(event) {
   }
 }
 
-const success = () => {
-  renderMessage('success');
+const onSuccess = () => {
+  closeModal();
+  renderMessage(SUCCESS_STATE, SUCCESS_MESSAGE, SUCCESS_BUTTON_TEXT);
+  setSubmitButtonStatus(false);
 };
 
-const error = () => {
-  renderMessage('error');
+const onError = () => {
+  renderMessage(ERROR_STATE, ERROR_MESSAGE, ERROR_BUTTON_TEXT);
+  setSubmitButtonStatus(false);
 };
 
 function onFormSubmit(event) {
   event.preventDefault();
   if (validateForm()) {
-    submitButton.disabled = true;
-    sendData(POST_URL, success, error, new FormData(event.target));
+    setSubmitButtonStatus(true);
+    sendData(POST_URL, onSuccess, onError, new FormData(event.target));
   }
-  submitButton.disabled = false;
 }
 
 const onImageInputChange = () => openModal();

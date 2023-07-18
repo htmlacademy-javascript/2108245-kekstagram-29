@@ -1,15 +1,15 @@
-const getData = (url, success, error) => {
+const getData = (url, onSuccess, onError,) => {
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      success(result);
+      onSuccess(result);
     })
     .catch(() => {
-      error();
+      onError();
     });
 };
 
-const sendData = (url, success, error, body) => {
+const sendData = (url, onSuccess, onError, body) => {
   fetch(url,
     {
       method: 'POST',
@@ -17,13 +17,13 @@ const sendData = (url, success, error, body) => {
     })
     .then((response) => {
       if(response.ok) {
-        success();
+        onSuccess();
         return;
       }
-      error();
+      onError();
     })
     .catch(() => {
-      error();
+      onError();
     });
 };
 
