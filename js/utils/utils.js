@@ -14,4 +14,12 @@ const shuffleArray = (elements) => {
 
 const isEscapeKey = (event) => event.key === 'Escape';
 
-export {getRandomNumber, getRandomArrayElement, shuffleArray, isEscapeKey};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomNumber, getRandomArrayElement, shuffleArray, isEscapeKey, debounce};
