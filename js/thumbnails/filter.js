@@ -41,7 +41,8 @@ const initFilter = (data) => {
   filter.classList.remove('img-filters--inactive');
   imgFiltersForm.addEventListener('click', (event) => {
     event.preventDefault();
-    if(event.target.closest('.img-filters__button')) {
+
+    if(event.target.closest('.img-filters__button') && !event.target.closest('.img-filters__button--active')) {
       setInactiveButton();
       event.target.classList.add('img-filters__button--active');
       const id = event.target.id;

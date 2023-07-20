@@ -18,6 +18,7 @@ const setNewValue = (value) => {
 
 const onControlSmallerClick = (event) => {
   event.preventDefault();
+
   if (leadValue() >= SCALE_MIN + SCALE_STEP) {
     setNewValue(leadValue() - SCALE_STEP);
   }
@@ -25,6 +26,7 @@ const onControlSmallerClick = (event) => {
 
 const onControlBiggerClick = (event) => {
   event.preventDefault();
+
   if (leadValue() <= SCALE_MAX - SCALE_STEP) {
     setNewValue(leadValue() + SCALE_STEP);
   }

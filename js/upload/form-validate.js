@@ -13,10 +13,10 @@ const descriptionInput = form.querySelector('.text__description');
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-error'
+  errorClass: 'img-upload__field-wrapper--invalid',
 });
 
-const createHashtags = (value) => value.trim().toLowerCase().split(' ');
+const createHashtags = (value) => value.trim().toLowerCase().split(' ').filter((item) => item);
 
 const validateHashtag = (item) => REGEXP.test(item);
 
@@ -24,6 +24,7 @@ const isNameHashtagsValid = (value) => {
   if (!value) {
     return true;
   }
+
   const hashtags = createHashtags(value);
   return hashtags.every((hashtag) => validateHashtag(hashtag));
 };

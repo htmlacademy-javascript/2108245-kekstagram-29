@@ -3,14 +3,14 @@ import {isEscapeKey} from '../utils/utils.js';
 const COMMENTS_COUNTER = 5;
 
 const pictureContainer = document.querySelector('.big-picture');
-const pictureCancel = pictureContainer.querySelector('.big-picture__cancel');
-const bigImage = pictureContainer.querySelector('img');
-const likesCount = pictureContainer.querySelector('.likes-count');
-const socialCommentCount = pictureContainer.querySelector('.social__comment-count');
-const socialComments = pictureContainer.querySelector('.social__comments');
-const socialComment = pictureContainer.querySelector('.social__comment');
-const socialCaption = pictureContainer.querySelector('.social__caption');
-const commentsLoader = pictureContainer.querySelector('.comments-loader');
+const pictureCancel = document.querySelector('.big-picture__cancel');
+const bigImage = document.querySelector('.big-picture__img img');
+const likesCount = document.querySelector('.likes-count');
+const socialCommentCount = document.querySelector('.social__comment-count');
+const socialComments = document.querySelector('.social__comments');
+const socialComment = document.querySelector('.social__comment');
+const socialCaption = document.querySelector('.social__caption');
+const commentsLoader = document.querySelector('.comments-loader');
 
 let comments = [];
 let visibleComments = 0;
@@ -64,6 +64,7 @@ const setStatusButton = () => {
     commentsLoader.classList.add('hidden');
     return;
   }
+
   commentsLoader.classList.remove('.hidden');
 };
 
@@ -82,6 +83,7 @@ function onCommentsLoaderClick(event) {
 
 const fillBigPicture = (post) => {
   bigImage.src = post.url;
+  console.log(bigImage.src)
   bigImage.alt = post.description;
   socialCaption.textContent = post.description;
   likesCount.textContent = post.likes;

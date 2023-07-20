@@ -6,7 +6,7 @@ import {addPhotoScale, resetScale} from './photo-scale.js';
 import {sendData} from '../utils/api.js';
 import {renderUploadImage} from './upload-image.js';
 
-const POST_URL = 'https://29.javascript.pages.academy/kekstagra/';
+const POST_URL = 'https://29.javascript.pages.academy/kekstagram/';
 const SUCCESS_STATE = 'success';
 const SUCCESS_MESSAGE = 'Изображение успешно загружено';
 const SUCCESS_BUTTON_TEXT = 'Круто!';
@@ -35,13 +35,13 @@ const openModal = () => {
 };
 
 const closeModal = () => {
+  form.reset();
+  resetPristine();
+  resetScale();
+  setUpdateOptions(currentEffectValue);
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  form.reset();
-  resetScale();
-  resetPristine();
-  setUpdateOptions(currentEffectValue);
 };
 
 function onOverlayCancelClick(event) {
@@ -73,6 +73,7 @@ const onError = () => {
 
 function onFormSubmit(event) {
   event.preventDefault();
+
   if (validateForm()) {
     setSubmitButtonStatus(true);
     sendData(POST_URL, onSuccess, onError, new FormData(event.target));
@@ -82,7 +83,7 @@ function onFormSubmit(event) {
 const onImageInputChange = () => {
   renderUploadImage();
   openModal();
-}
+};
 
 const initUploadForm = () => {
   addValidator();

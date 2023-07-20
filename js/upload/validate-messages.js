@@ -1,5 +1,7 @@
 import {isEscapeKey} from '../utils/utils.js';
 
+const overlay = document.querySelector('.img-upload__overlay');
+
 const createMessageTemplate = (state, message, buttonText) =>
   `<section class="${state}">
       <div class="${state}__inner">
@@ -41,8 +43,11 @@ const closeMessage = () => {
     submitButton.removeEventListener('click', onSubmitButtonClick);
   }
 
+  if (overlay.classList.contains('hidden')) {
+    document.body.classList.remove('modal-open');
+  }
+
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.body.classList.remove('modal-open');
   element.removeEventListener('click', onMessageContainerClick);
   removeMessageContainer();
 };
