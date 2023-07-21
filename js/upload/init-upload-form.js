@@ -1,11 +1,12 @@
-import {isEscapeKey} from '../utils/utils.js';
-import {validateForm, addValidator, resetPristine} from './form-validate.js';
-import {renderMessage} from './validate-messages.js';
-import {setUpdateOptions, createSlider} from './photo-filters.js';
-import {addPhotoScale, resetScale} from './photo-scale.js';
-import {sendData} from '../utils/api.js';
+import { isEscapeKey } from '../utils/utils.js';
+import { validateForm, addValidator, resetPristine } from './form-validate.js';
+import { renderMessage } from '../utils/messages.js';
+import { setUpdateOptions, createSlider } from './photo-filters.js';
+import { addPhotoScale, resetScale } from './photo-scale.js';
+import { sendData } from '../utils/api.js';
+import { renderUploadImage } from './upload-image.js';
 
-const POST_URL = 'https://29.javascript.pages.academy/kekstagra/';
+const POST_URL = 'https://29.javascript.pages.academy/kekstagram/';
 const SUCCESS_STATE = 'success';
 const SUCCESS_MESSAGE = 'Изображение успешно загружено';
 const SUCCESS_BUTTON_TEXT = 'Круто!';
@@ -34,13 +35,13 @@ const openModal = () => {
 };
 
 const closeModal = () => {
+  form.reset();
+  resetPristine();
+  resetScale();
+  setUpdateOptions(currentEffectValue);
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  form.reset();
-  resetScale();
-  resetPristine();
-  setUpdateOptions(currentEffectValue);
 };
 
 function onOverlayCancelClick(event) {
@@ -53,7 +54,12 @@ function onDocumentKeydown(event) {
   const textDescription = event.target.closest('.text__description');
   const errorContainer = document.querySelector('.error');
 
-  if(isEscapeKey(event) && !textHashtags && !textDescription && !errorContainer) {
+  if (
+    isEscapeKey(event) &&
+    !textHashtags &&
+    !textDescription &&
+    !errorContainer
+  ) {
     event.preventDefault();
     closeModal();
   }
@@ -72,13 +78,17 @@ const onError = () => {
 
 function onFormSubmit(event) {
   event.preventDefault();
+
   if (validateForm()) {
     setSubmitButtonStatus(true);
     sendData(POST_URL, onSuccess, onError, new FormData(event.target));
   }
 }
 
-const onImageInputChange = () => openModal();
+const onImageInputChange = (event) => {
+  renderUploadImage(event);
+  openModal();
+};
 
 const initUploadForm = () => {
   addValidator();
@@ -90,4 +100,4 @@ const initUploadForm = () => {
   effectsList.addEventListener('change', onEffectsListChange);
 };
 
-export {initUploadForm, closeModal};
+export { initUploadForm, closeModal };

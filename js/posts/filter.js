@@ -1,5 +1,5 @@
-import {renderPosts} from './render-posts.js';
-import {shuffleArray, debounce} from '../utils/utils.js';
+import { renderPosts } from './render-posts.js';
+import { shuffleArray, debounce } from '../utils/utils.js';
 
 const FILTER_RANDOM = 'filter-random';
 const FILTER_DISCUSSED = 'filter-discussed';
@@ -23,31 +23,29 @@ const getFilteringData = (data, id = '') => {
   }
 };
 
-const removePictures = () => {
-  pictureList.querySelectorAll('.picture').forEach((picture) => picture.remove());
-};
-
 const setDelayRender = debounce((data, id) => {
-  removePictures();
+  pictureList
+    .querySelectorAll('.picture')
+    .forEach((picture) => picture.remove());
   renderPosts(getFilteringData(data, id));
 }, RENDER_DELAY);
-
-const setInactiveButton = () => {
-  const buttonActive = imgFiltersForm.querySelector('.img-filters__button--active');
-  buttonActive.classList.remove('img-filters__button--active');
-};
 
 const initFilter = (data) => {
   filter.classList.remove('img-filters--inactive');
   imgFiltersForm.addEventListener('click', (event) => {
     event.preventDefault();
-    if(event.target.closest('.img-filters__button')) {
-      setInactiveButton();
+
+    if (
+      event.target.closest('.img-filters__button') &&
+      !event.target.closest('.img-filters__button--active')
+    ) {
+      imgFiltersForm
+        .querySelector('.img-filters__button--active')
+        .classList.remove('img-filters__button--active');
       event.target.classList.add('img-filters__button--active');
-      const id = event.target.id;
-      setDelayRender(data, id);
+      setDelayRender(data, event.target.id);
     }
   });
 };
 
-export {initFilter, getFilteringData};
+export { initFilter, getFilteringData };

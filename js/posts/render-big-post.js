@@ -1,16 +1,16 @@
-import {isEscapeKey} from '../utils/utils.js';
+import { isEscapeKey } from '../utils/utils.js';
 
 const COMMENTS_COUNTER = 5;
 
 const pictureContainer = document.querySelector('.big-picture');
-const pictureCancel = pictureContainer.querySelector('.big-picture__cancel');
-const bigImage = pictureContainer.querySelector('img');
-const likesCount = pictureContainer.querySelector('.likes-count');
-const socialCommentCount = pictureContainer.querySelector('.social__comment-count');
-const socialComments = pictureContainer.querySelector('.social__comments');
-const socialComment = pictureContainer.querySelector('.social__comment');
-const socialCaption = pictureContainer.querySelector('.social__caption');
-const commentsLoader = pictureContainer.querySelector('.comments-loader');
+const pictureCancel = document.querySelector('.big-picture__cancel');
+const bigImage = document.querySelector('.big-picture__img img');
+const likesCount = document.querySelector('.likes-count');
+const socialCommentCount = document.querySelector('.social__comment-count');
+const socialComments = document.querySelector('.social__comments');
+const socialComment = document.querySelector('.social__comment');
+const socialCaption = document.querySelector('.social__caption');
+const commentsLoader = document.querySelector('.comments-loader');
 
 let comments = [];
 let visibleComments = 0;
@@ -23,7 +23,7 @@ const openModal = () => {
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
 };
 
-function closeModal () {
+function closeModal() {
   pictureContainer.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   pictureCancel.removeEventListener('click', onPictureCancelClick);
@@ -40,14 +40,14 @@ function onPictureCancelClick(event) {
 }
 
 function onDocumentKeydown(event) {
-  if(isEscapeKey(event) && !event.target.closest('.social__footer-text')) {
+  if (isEscapeKey(event) && !event.target.closest('.social__footer-text')) {
     event.preventDefault();
     closeModal();
   }
 }
 
 const fillCommentCounter = () => {
-  socialCommentCount.innerHTML = `${visibleComments} из <span class="comments-count">${comments.length}</span> комментариев`;
+  socialCommentCount.innerHTML = `${visibleComments} из <span class='comments-count'>${comments.length}</span> комментариев`;
 };
 
 const fillComment = (item) => {
@@ -64,13 +64,22 @@ const setStatusButton = () => {
     commentsLoader.classList.add('hidden');
     return;
   }
+
   commentsLoader.classList.remove('.hidden');
 };
 
 const fillComments = () => {
-  const currentComments = comments.slice(visibleComments, visibleComments + COMMENTS_COUNTER);
-  visibleComments = Math.min(visibleComments + COMMENTS_COUNTER, comments.length);
-  currentComments.forEach((comment) => socialComments.append(fillComment(comment)));
+  const currentComments = comments.slice(
+    visibleComments,
+    visibleComments + COMMENTS_COUNTER
+  );
+  visibleComments = Math.min(
+    visibleComments + COMMENTS_COUNTER,
+    comments.length
+  );
+  currentComments.forEach((comment) =>
+    socialComments.append(fillComment(comment))
+  );
   fillCommentCounter();
   setStatusButton();
 };
@@ -95,4 +104,4 @@ const renderBigPost = (post) => {
   fillComments();
 };
 
-export {renderBigPost};
+export { renderBigPost };

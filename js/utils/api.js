@@ -1,4 +1,4 @@
-const getData = (url, onSuccess, onError,) => {
+const getData = (url, onSuccess, onError) => {
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
@@ -10,13 +10,12 @@ const getData = (url, onSuccess, onError,) => {
 };
 
 const sendData = (url, onSuccess, onError, body) => {
-  fetch(url,
-    {
-      method: 'POST',
-      body,
-    })
+  fetch(url, {
+    method: 'POST',
+    body,
+  })
     .then((response) => {
-      if(response.ok) {
+      if (response.ok) {
         onSuccess();
         return;
       }
@@ -27,5 +26,4 @@ const sendData = (url, onSuccess, onError, body) => {
     });
 };
 
-
-export {getData, sendData};
+export { getData, sendData };
