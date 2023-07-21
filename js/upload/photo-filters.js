@@ -4,41 +4,41 @@ const EFFECTS = {
     minValue: 0,
     maxValue: 1,
     step: 0.1,
-    unit: ''
+    unit: '',
   },
   sepia: {
     property: 'sepia',
     minValue: 0,
     maxValue: 1,
     step: 0.1,
-    unit: ''
+    unit: '',
   },
   marvin: {
     property: 'invert',
     minValue: 0,
     maxValue: 100,
     step: 1,
-    unit: '%'
+    unit: '%',
   },
   phobos: {
     property: 'blur',
     minValue: 0,
     maxValue: 3,
     step: 0.1,
-    unit: 'px'
+    unit: 'px',
   },
   heat: {
     property: 'brightness',
     minValue: 1,
     maxValue: 3,
     step: 0.1,
-    unit: ''
+    unit: '',
   },
   default: {
     minValue: 0,
     maxValue: 100,
-    step: 1
-  }
+    step: 1,
+  },
 };
 
 const rangeContainer = document.querySelector('.img-upload__effect-level');
@@ -101,4 +101,4 @@ const setUpdateOptions = (value) => {
   updateSlider(settings);
 };
 
-export {setUpdateOptions, createSlider};
+export { setUpdateOptions, createSlider };

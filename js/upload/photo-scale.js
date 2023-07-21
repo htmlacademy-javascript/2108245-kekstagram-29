@@ -39,4 +39,4 @@ const addPhotoScale = () => {
   controlBigger.addEventListener('click', onControlBiggerClick);
 };
 
-export {addPhotoScale, resetScale};
+export { addPhotoScale, resetScale };

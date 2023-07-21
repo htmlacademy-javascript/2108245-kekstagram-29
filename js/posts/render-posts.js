@@ -1,7 +1,9 @@
-import {renderBigPost} from './render-big-post.js';
+import { renderBigPost } from './render-big-post.js';
 
 const pictureList = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const pictureTemplate = document
+  .querySelector('#picture')
+  .content.querySelector('.picture');
 const listFragment = document.createDocumentFragment();
 
 const createPost = (item) => {
@@ -11,7 +13,8 @@ const createPost = (item) => {
   img.alt = item.description;
   picture.id = item.id;
   picture.querySelector('.picture__likes').textContent = item.likes;
-  picture.querySelector('.picture__comments').textContent = item.comments.length;
+  picture.querySelector('.picture__comments').textContent =
+    item.comments.length;
   picture.addEventListener('click', (event) => {
     event.preventDefault();
     renderBigPost(item);
@@ -24,4 +27,4 @@ const renderPosts = (posts) => {
   pictureList.appendChild(listFragment);
 };
 
-export {renderPosts};
+export { renderPosts };

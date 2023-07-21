@@ -1,10 +1,10 @@
-import {isEscapeKey} from '../utils/utils.js';
-import {validateForm, addValidator, resetPristine} from './form-validate.js';
-import {renderMessage} from './validate-messages.js';
-import {setUpdateOptions, createSlider} from './photo-filters.js';
-import {addPhotoScale, resetScale} from './photo-scale.js';
-import {sendData} from '../utils/api.js';
-import {renderUploadImage} from './upload-image.js';
+import { isEscapeKey } from '../utils/utils.js';
+import { validateForm, addValidator, resetPristine } from './form-validate.js';
+import { renderMessage } from '../utils/messages.js';
+import { setUpdateOptions, createSlider } from './photo-filters.js';
+import { addPhotoScale, resetScale } from './photo-scale.js';
+import { sendData } from '../utils/api.js';
+import { renderUploadImage } from './upload-image.js';
 
 const POST_URL = 'https://29.javascript.pages.academy/kekstagram/';
 const SUCCESS_STATE = 'success';
@@ -54,7 +54,12 @@ function onDocumentKeydown(event) {
   const textDescription = event.target.closest('.text__description');
   const errorContainer = document.querySelector('.error');
 
-  if(isEscapeKey(event) && !textHashtags && !textDescription && !errorContainer) {
+  if (
+    isEscapeKey(event) &&
+    !textHashtags &&
+    !textDescription &&
+    !errorContainer
+  ) {
     event.preventDefault();
     closeModal();
   }
@@ -80,8 +85,8 @@ function onFormSubmit(event) {
   }
 }
 
-const onImageInputChange = () => {
-  renderUploadImage();
+const onImageInputChange = (event) => {
+  renderUploadImage(event);
   openModal();
 };
 
@@ -95,4 +100,4 @@ const initUploadForm = () => {
   effectsList.addEventListener('change', onEffectsListChange);
 };
 
-export {initUploadForm, closeModal};
+export { initUploadForm, closeModal };
