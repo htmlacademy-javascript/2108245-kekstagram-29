@@ -23,16 +23,15 @@ const openModal = () => {
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
 };
 
-function closeModal() {
+const closeModal = () => {
   pictureContainer.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   pictureCancel.removeEventListener('click', onPictureCancelClick);
   document.body.classList.remove('modal-open');
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   commentsLoader.classList.remove('hidden');
-  comments = [];
   visibleComments = 0;
-}
+};
 
 function onPictureCancelClick(event) {
   event.preventDefault();
@@ -59,7 +58,7 @@ const fillComment = (item) => {
   return comment;
 };
 
-const setStatusButton = () => {
+const setButtonStatus = () => {
   if (visibleComments >= comments.length) {
     commentsLoader.classList.add('hidden');
     return;
@@ -81,7 +80,7 @@ const fillComments = () => {
     socialComments.append(fillComment(comment))
   );
   fillCommentCounter();
-  setStatusButton();
+  setButtonStatus();
 };
 
 function onCommentsLoaderClick(event) {
