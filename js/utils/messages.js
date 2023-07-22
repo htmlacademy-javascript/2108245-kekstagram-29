@@ -17,6 +17,33 @@ const createMessageTemplate = (state, message, buttonText) =>
       </div>
     </section>`;
 
+const closeMessage = () => {
+  if (!isOpen) {
+    document.body.classList.remove('modal-open');
+  }
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+  modal.remove();
+};
+
+function onDocumentKeydown(event) {
+  if (isEscapeKey(event)) {
+    event.preventDefault();
+    closeMessage();
+  }
+}
+
+const onSubmitButtonClick = (event) => {
+  event.preventDefault();
+  closeMessage();
+};
+
+const onMessageContainerClick = (event, state) => {
+  if (!event.target.closest(`.${state}__inner`)) {
+    closeMessage();
+  }
+};
+
 const renderMessage = (state, message, buttonText) => {
   isOpen = false;
   modal = createElement(createMessageTemplate(state, message, buttonText));
@@ -40,32 +67,5 @@ const renderMessage = (state, message, buttonText) => {
 
   isOpen = true;
 };
-
-const closeMessage = () => {
-  if (!isOpen) {
-    document.body.classList.remove('modal-open');
-  }
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-  modal.remove();
-};
-
-function onSubmitButtonClick(event) {
-  event.preventDefault();
-  closeMessage();
-}
-
-function onDocumentKeydown(event) {
-  if (isEscapeKey(event)) {
-    event.preventDefault();
-    closeMessage();
-  }
-}
-
-function onMessageContainerClick(event, state) {
-  if (!event.target.closest(`.${state}__inner`)) {
-    closeMessage();
-  }
-}
 
 export { renderMessage };

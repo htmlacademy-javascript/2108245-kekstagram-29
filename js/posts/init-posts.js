@@ -9,9 +9,7 @@ const ERROR_MESSAGE = 'Ошибка. Обновите страницу';
 
 const startFilterId = document.querySelector('.img-filters__button--active').id;
 
-const showError = () => {
-  renderMessage(ERROR_STATE, ERROR_MESSAGE);
-};
+const showError = () => renderMessage(ERROR_STATE, ERROR_MESSAGE);
 
 const getSuccess = (data) => {
   initFilter(data);

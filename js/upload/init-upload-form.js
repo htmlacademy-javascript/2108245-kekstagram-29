@@ -44,10 +44,10 @@ const closeModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-function onOverlayCancelClick(event) {
+const onOverlayCancelClick = (event) => {
   event.preventDefault();
   closeModal();
-}
+};
 
 function onDocumentKeydown(event) {
   const textHashtags = event.target.closest('.text__hashtags');
@@ -100,4 +100,4 @@ const initUploadForm = () => {
   effectsList.addEventListener('change', onEffectsListChange);
 };
 
-export { initUploadForm, closeModal };
+export { initUploadForm };
